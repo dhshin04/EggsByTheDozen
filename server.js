@@ -36,7 +36,7 @@ app.post('/', upload.single("image"), (req,res) => {
 	exec(`python main.py -f ${imagePath}`, (error, stdout, stderr) => {
 		// Error with executing - terminate exec()
 		if (error) {
-			console.log("Error: " + stderr);
+			alert("Error: " + stderr);
 			res.status(500).send('Failed to process image sent by client');
 
 			// Remove image from uploads/
