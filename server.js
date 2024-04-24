@@ -4,7 +4,7 @@ const app = express();
 /* Multer Middleware for File Uploads */
 const multer = require('multer');
 const upload = multer({
-	limits: { fileSize: 25 * 1024 * 1024 },	// 25 MB file size limit 
+	limits: { fileSize: 1 * 1024 * 1024 },	// 1 MB file size limit 
 	dest: 'uploads/' 
 });		// Instance of multer
 
@@ -74,7 +74,7 @@ app.post('/', upload.single("image"), (req,res,next) => {
 app.use((error, req, res, next) => {
 	// Handle Image Size Exceeds Limit Error
 	if (error instanceof multer.MulterError) {
-		return res.status(400).send("Image Size Exceeds 25 MB Limit. Upload a smaller image...");
+		return res.status(400).send("Image Size Exceeds 25 MB Limit. Upload a smaller image or convert to smaller image size using sites like imresizer.com");
 	} 
 	
 	// Some other error
