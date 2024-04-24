@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y \libgl1-mesa-glx
 # Copy package.json and package-lock.json for Node dependencies in /app
 COPY package*.json ./
 
-# Install Node dependencies
+# Install Node dependencies during Build - useful if not including big dependencies like node_modules in Git and /app
 RUN npm install
 
 # Copy requirements.txt for Python dependencies in /app
