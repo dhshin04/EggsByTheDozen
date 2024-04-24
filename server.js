@@ -3,7 +3,10 @@ const app = express();
 
 /* Multer Middleware for File Uploads */
 const multer = require('multer');
-const upload = multer({ dest: 'uploads/' });		// Instance of multer
+const upload = multer({
+	limits: { fileSize: 50 * 1024 * 1024 },	// 50 MB file size limit 
+	dest: 'uploads/' 
+});		// Instance of multer
 
 /* Executes Child Process on Shell */
 const { exec } = require('child_process');
