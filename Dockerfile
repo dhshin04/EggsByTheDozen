@@ -1,4 +1,4 @@
-# Run "docker build -t myapp:latest" to build docker
+# Run "docker build -t myapp:latest ." to build docker
 # Run "docker run -p 3000:3000 myapp:latest" to launch docker
 
 # Base image that supports Node/Express and Python

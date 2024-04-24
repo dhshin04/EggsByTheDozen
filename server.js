@@ -19,7 +19,7 @@ app.use(express.static('static'));
 
 /* Path to MyProject - changes based on OS */
 const path = require('path');
-const myProjectPath = path.join('static', 'images', 'imParasites.png');		// try join('images', 'imParasites.png') if this doesn't work
+const myFECPath = path.join('images', 'imParasites.png');		// try join('images', 'imParasites.png') if this doesn't work
 
 /* View .ejs format */
 app.set('view engine', 'ejs');
@@ -59,7 +59,7 @@ app.post('/', upload.single("image"), (req,res,next) => {
 		let epg = result.substring(tokenIndex + 1);
 
 		// Render index.ejs with fecal egg count
-		res.render("index.ejs", { show: true, count: fec, gram: epg, image: 'imParasites.png' });
+		res.render("index.ejs", { show: true, count: fec, gram: epg, image: myFECPath });
 
 		// Remove image from uploads/
 		unlink(imagePath, error => {

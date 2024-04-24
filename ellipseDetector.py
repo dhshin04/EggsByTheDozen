@@ -33,7 +33,7 @@ class ellipseDetector:
         nearestEX, nearestEY = cxE + radX * math.cos(angleToCenterE), cyE * -1 + radY * math.sin(angleToCenterE)
         return (ptX - nearestEX) ** 2 + (ptY * -1 - nearestEY * -1) ** 2, (nearestEX, -1 * nearestEY)
     
-    def fitEllipse_RANSAC(self, Contour):
+    def fitEllipse_RANSAC(self, Contour, size):
         if len(Contour) < 5:
             print("Contour Too Small")
             
@@ -58,7 +58,7 @@ class ellipseDetector:
         
         return bestFit
     
-    def fitEllipse_Polygon(self, Contour):
+    def fitEllipse_Polygon(self, Contour, size):
         area = int(cv2.contourArea(Contour))  # Cast area to int (though not necessary in Python)
         bounding_box = cv2.boundingRect(Contour)
         aspect_ratio = bounding_box[2] / bounding_box[3]  # Width divided by Height
@@ -66,7 +66,10 @@ class ellipseDetector:
         # Filter based on aspect ratio and minimum size
         elongation_factor = abs(1 - aspect_ratio)
         
-        if 0.1 < elongation_factor and elongation_factor < 1 and 1000 < area < 4000:
+        areaMin = size[0]*1.5
+        areaMax = size[0]*7
+        
+        if 0.1 < elongation_factor and elongation_factor < 1 and areaMin < area and area < 8000:
             # Approximate contour to smooth shape
             epsilon = 0.01 * cv2.arcLength(Contour, True)
             approx = cv2.approxPolyDP(Contour, epsilon, True)
