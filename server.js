@@ -4,7 +4,7 @@ const app = express();
 /* Multer Middleware for File Uploads */
 const multer = require('multer');
 const upload = multer({
-	limits: { fileSize: 50 * 1024 * 1024 },	// 50 MB file size limit 
+	limits: { fileSize: 10 * 1024 * 1024 },	// 50 MB file size limit 
 	dest: 'uploads/' 
 });		// Instance of multer
 
