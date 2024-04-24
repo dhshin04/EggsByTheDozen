@@ -32,13 +32,8 @@ app.get('/', (req,res) => {
 });
 
 // upload.single() saves image in 'upload/' path
-app.post('/', upload.single("image"), (error,req,res) => {
+app.post('/', upload.single("image"), (req,res,next) => {
 	const imagePath = req.file.path;		// Path to client's image input
-
-	// Handle Image Size Exceeds Limit Error
-	if (error.code === "LIMIT_FILE_SIZE") {
-		res.status(400).send("Image Size Exceeds 25 MB Limit. Upload a smaller image...");
-	}
 
 	// Execute OpenCV executable file
 	exec(`python main.py -f ${imagePath}`, (error, stdout, stderr) => {
@@ -73,7 +68,23 @@ app.post('/', upload.single("image"), (error,req,res) => {
 			}
 		});
 	});
-})
+});
+
+// Handles Error From Multer - POST calls next(error) if error occurs --> this middleware is called
+app.use((error, req, res, next) => {
+	// Handle Image Size Exceeds Limit Error
+	if (error instanceof multer.MulterError) {
+		return res.status(400).send("Image Size Exceeds 25 MB Limit. Upload a smaller image...");
+	} 
+	
+	// Some other error
+	if (error) {
+		return res.status(500).send("Unknown Internal Server Error");
+	}
+	
+	// No error but POST called it for different reason - next() calls next middleware
+	next();
+});
 
 // Start the server - listen from all IP (0.0.0.0)
 const PORT = process.env.PORT || 3000;
