@@ -25,7 +25,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy local code to container's workspace (COPY source dest)
 COPY . .
 
-# Hint which port Node app runs on
+# Hint which port Node app runs on - for local host testing
 EXPOSE 3000
 
 # Start Node app
