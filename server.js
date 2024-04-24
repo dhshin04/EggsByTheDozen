@@ -38,14 +38,6 @@ app.post('/', upload.single("image"), (error,req,res) => {
 	// Handle Image Size Exceeds Limit Error
 	if (error.code === "LIMIT_FILE_SIZE") {
 		res.status(400).send("Image Size Exceeds 25 MB Limit. Upload a smaller image...");
-
-		// Remove image from uploads/
-		unlink(imagePath, err => {
-			if (err) {
-				console.log("Failed to remove image from 'uploads/' path");
-			}
-		});
-		return;
 	}
 
 	// Execute OpenCV executable file
