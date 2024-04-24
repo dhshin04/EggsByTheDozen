@@ -4,7 +4,7 @@ const app = express();
 /* Multer Middleware for File Uploads */
 const multer = require('multer');
 const upload = multer({
-	limits: { fileSize: 10 * 1024 * 1024 },	// 50 MB file size limit 
+	limits: { fileSize: 25 * 1024 * 1024 },	// 25 MB file size limit 
 	dest: 'uploads/' 
 });		// Instance of multer
 
@@ -32,8 +32,21 @@ app.get('/', (req,res) => {
 });
 
 // upload.single() saves image in 'upload/' path
-app.post('/', upload.single("image"), (req,res) => {
+app.post('/', upload.single("image"), (error,req,res) => {
 	const imagePath = req.file.path;		// Path to client's image input
+
+	// Handle Image Size Exceeds Limit Error
+	if (error.code === "LIMIT_FILE_SIZE") {
+		res.status(400).send("Image Size Exceeds 25 MB Limit. Upload a smaller image...");
+
+		// Remove image from uploads/
+		unlink(imagePath, err => {
+			if (err) {
+				console.log("Failed to remove image from 'uploads/' path");
+			}
+		});
+		return;
+	}
 
 	// Execute OpenCV executable file
 	exec(`python main.py -f ${imagePath}`, (error, stdout, stderr) => {
