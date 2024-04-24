@@ -74,7 +74,7 @@ app.post('/', upload.single("image"), (req,res,next) => {
 app.use((error, req, res, next) => {
 	// Handle Image Size Exceeds Limit Error
 	if (error instanceof multer.MulterError) {
-		return res.status(400).send("Image Size Exceeds 25 MB Limit. Upload a smaller image or convert to smaller image size using sites like imresizer.com");
+		return res.status(400).send("Image Size Exceeds 1 MB Limit. Upload a smaller image or convert to smaller image size using sites like imresizer.com");
 	} 
 	
 	// Some other error
