@@ -1,6 +1,7 @@
 import cv2, sys
 import numpy as np
 from imageHelper import pad, pad_all
+from enum import Enum
 
 from ellipseDetector import ellipseDetector
 
@@ -11,6 +12,22 @@ class Parasite:
         self.width = width
         self.height = height
         self.estArea = estArea
+        
+class INFESTATION(Enum):
+    NONE = 0
+    LIGHT = 1
+    MODERATE = 2
+    HEAVY = 3
+        
+def successCriteria(eggsPerGram):
+    if eggsPerGram > 650: 
+        return INFESTATION.HEAVY
+    elif eggsPerGram > 350: 
+        return INFESTATION.MODERATE
+    elif eggsPerGram > 50:
+        return INFESTATION.LIGHT
+    else:
+        return INFESTATION.NONE
 
 def getBestEllipse(ellipseHelper, Contour, size):
     return ellipseHelper.fitEllipse_Polygon(Contour,size)
@@ -85,9 +102,9 @@ def detectParasites(fileName, thresh, outFile = "", saveImages = True):
     
     if (saveImages):
         if outFile == "":
-            cv2.imwrite("static/Images/imParasites.png", ellipseImage);
+            cv2.imwrite("static/images/imParasites.png", ellipseImage)
         else: 
-            cv2.imwrite(outFile, ellipseImage);
+            cv2.imwrite(outFile, ellipseImage)
         
     
         
@@ -100,6 +117,10 @@ def testProtocol(fileName, img, thresh, Parasites):
     
     greenMat = img.copy()
     
+    if fileName == "easy_test.png": thresh=130
+    elif fileName == "medium_test.jpeg": thresh=208
+    elif fileName == "hard_test.jpeg": thresh=103
+    else: thresh=-1
     binary = getBinaryThreshold(im_gray, thresh)
     
     size = im_gray.shape

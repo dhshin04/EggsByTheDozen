@@ -32,7 +32,8 @@ def optimize(ImagePack):
         
         if undetected < Least_Undetected[0]: Least_Undetected = (undetected, i)
         if errorVal < Lowest_Error[0]: Lowest_Error = (errorVal, i)
-    
+        
+
     print(Lowest_Error)
     print(Least_Undetected)
     
@@ -81,7 +82,6 @@ def getDataForOptimizeAll(ImagePacks):
     
 
 def optimalDisplay():
-    ImageFiles = ["letter2.png", "unlabeled3.jpeg", "arrows1.jpeg"]
     Images = getTestImagePacks()
 
     
@@ -91,6 +91,7 @@ def optimalDisplay():
     root = tk.Tk()
     
     for Image in Images: 
+        cv2.imwrite("exp" + Image[1], Image[0])
         totalError, undetected, lowest_error, least_undetected = optimize(Image)
         thresh = least_undetected[1]
         currTestImg = getSingleTestImage(Image, thresh)[0]

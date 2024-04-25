@@ -3,7 +3,6 @@ import numpy as np
 from imageHelper import pad, pad_all
 from detect import detectParasites
 
-
 def main():
     fileName = "unlabeled3.jpg"
     thresh = 210

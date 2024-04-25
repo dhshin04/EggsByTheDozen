@@ -13,7 +13,7 @@ import math
 from ellipseDetector import ellipseDetector
 
 def getTestImagePacks():
-    ImageFiles = ["easy_test.png", "medium_test.jpeg", "hard_test.jpeg"]
+    ImageFiles = ["easy_test.png", "medium_test.jpeg", "hard_test.jpeg", "MISC_TEST.jpg", "null_test.jpeg"]
     Images = []
 
     for fileName in ImageFiles:
@@ -63,11 +63,19 @@ def getSingleTestImage(ImagePack, thresh):
     detected = tk_image
     return detected, errors
 
+def deriveData(Parasites):
+    seen = len(Parasites)
+    EggsPerGram = seen * 50
+    return seen, EggsPerGram
+
+def getExpectedData(ImagePack):
+    return deriveData(ImagePack[2])
+
 def getTestErrors(Images, thresh): #ONLY USED FOR ONE IMAGE
     totalErrors = []
     miss_nums = []
     for Image in Images:
-        m,e = getSingleTestError(Image, thresh)
+        m,e = getSingleTestError(Image, thresh)[1]
         miss_nums.append(m)
         totalErrors.append(e)
     return totalErrors,miss_nums
@@ -75,7 +83,7 @@ def getTestErrors(Images, thresh): #ONLY USED FOR ONE IMAGE
 def getSingleTestError(Image, Thresh):
     img,file,Parasites = Image
     im_t, observed = testProtocol(file, img, Thresh, Parasites)
-    return calculate_error(Parasites, observed, False)
+    return observed, calculate_error(Parasites, observed, False)
 
 
 
