@@ -19,7 +19,7 @@ app.use(express.static('static'));
 
 /* Path to MyProject - changes based on OS */
 const path = require('path');
-const myFECPath = path.join('images', 'imParasites.png');		// try join('images', 'imParasites.png') if this doesn't work
+const myFECPath = path.join('images', 'imParasites.png');
 
 /* View .ejs format */
 app.set('view engine', 'ejs');
