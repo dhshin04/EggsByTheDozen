@@ -26,7 +26,7 @@ def successCriteria(eggsPerGram):
     elif eggsPerGram > 350: 
         print("Moderate Infestation: Anthelmintic Treatment Recommended")
         return INFESTATION.MODERATE
-    elif eggsPerGram > 50:
+    elif eggsPerGram >= 50:
         print("Light Infestation: Treatment Not Necessary")
         return INFESTATION.LIGHT
     else:
