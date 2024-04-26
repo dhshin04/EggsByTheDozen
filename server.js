@@ -14,7 +14,7 @@ const { exec } = require('child_process');
 /* Handles File Removal */
 const { unlink } = require('fs');
 
-/* Middleware for Static Files */
+/* Middleware for Static Files - serve static files within 'static' folder */
 app.use(express.static('static'));
 
 /* Path to MyProject - changes based on OS */
@@ -28,7 +28,7 @@ app.set('view engine', 'ejs');
 /* GET and POST requests */
 app.get('/', (req,res) => {
 	// Render index.ejs without fecal egg count
-	res.render("index.ejs", { show: false, count: -1, image: '' });
+	res.render("index.ejs", { show: false, count: -1, epg: -1, condition: '', image: '' });
 });
 
 // upload.single() saves image in 'upload/' path
@@ -54,12 +54,16 @@ app.post('/', upload.single("image"), (req,res,next) => {
 		let result = stdout;
 		result = result.replace('Seen: ', '');
 		result = result.replace('Eggs Per Gram: ', '');
+
 		let tokenIndex = result.indexOf('\n');
 		let fec = result.substring(0, tokenIndex);
-		let epg = result.substring(tokenIndex + 1);
+		result = result.substring(tokenIndex + 1);
+		tokenIndex = result.indexOf('\n');
+		let epg = result.substring(0, tokenIndex);
+		let condition = result.substring(tokenIndex + 1);
 
 		// Render index.ejs with fecal egg count
-		res.render("index.ejs", { show: true, count: fec, gram: epg, image: myFECPath });
+		res.render("index.ejs", { show: true, fec, epg, condition, image: myFECPath });
 
 		// Remove image from uploads/
 		unlink(imagePath, error => {

@@ -21,12 +21,16 @@ class INFESTATION(Enum):
         
 def successCriteria(eggsPerGram):
     if eggsPerGram > 650: 
+        print("Heavy Infestation: Anthelmintic Treatment Necessary")
         return INFESTATION.HEAVY
     elif eggsPerGram > 350: 
+        print("Moderate Infestation: Anthelmintic Treatment Recommended")
         return INFESTATION.MODERATE
     elif eggsPerGram > 50:
+        print("Light Infestation: Treatment Not Necessary")
         return INFESTATION.LIGHT
     else:
+        print("No Infestation: Sample is Healthy")
         return INFESTATION.NONE
 
 def getBestEllipse(ellipseHelper, Contour, size):
@@ -110,6 +114,7 @@ def detectParasites(fileName, thresh, outFile = "", saveImages = True):
         
     print("Seen: %d" % num_eggs)
     print("Eggs Per Gram: %d" % (num_eggs * 50))
+    successCriteria(num_eggs*50)
     
     
 def testProtocol(fileName, img, thresh, Parasites):
@@ -117,10 +122,10 @@ def testProtocol(fileName, img, thresh, Parasites):
     
     greenMat = img.copy()
     
-    if fileName == "easy_test.png": thresh=130
-    elif fileName == "medium_test.jpeg": thresh=208
-    elif fileName == "hard_test.jpeg": thresh=103
-    else: thresh=-1
+    #if fileName == "easy_test.png": thresh=130
+    #elif fileName == "medium_test.jpeg": thresh=208
+    #elif fileName == "hard_test.jpeg": thresh=103
+    #else: thresh=-1
     binary = getBinaryThreshold(im_gray, thresh)
     
     size = im_gray.shape

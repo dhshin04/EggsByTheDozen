@@ -26,26 +26,26 @@ def optimize(ImagePack):
     for i in range(70, 245, 3):
         undetected,errorVal = getSingleTestError(ImagePack,i)
         ThresVals.append(i)
-        TotalError.append(errorVal)
-        UndetectedParasites.append(undetected)
+        TotalError.append(errorVal[1])
+        UndetectedParasites.append(errorVal[0])
         print(errorVal, undetected)
         
-        if undetected < Least_Undetected[0]: Least_Undetected = (undetected, i)
-        if errorVal < Lowest_Error[0]: Lowest_Error = (errorVal, i)
+        if errorVal[0] < Least_Undetected[0]: Least_Undetected = (errorVal[0], i)
+        if errorVal[1] < Lowest_Error[0]: Lowest_Error = (errorVal[1], i)
         
 
     print(Lowest_Error)
     print(Least_Undetected)
     
     
-    return TotalError, UndetectedParasites, Lowest_Error, Least_Undetected
+    #return TotalError, UndetectedParasites, Lowest_Error, Least_Undetected
     
     plt.figure(figsize=(10, 6))
-    plt.plot(ThresVals, TotalError, label='Total Error', marker='o')
-    plt.plot(ThresVals, UndetectedParasites, label='Undetected Parasites', marker='s')
-    plt.xlabel('Threshold Values')
-    plt.ylabel('Count')
-    plt.title('Error Analysis by Threshold')
+    plt.plot(ThresVals, TotalError, label='Error Value for Hard Test Sample', marker='o')
+    #plt.plot(ThresVals, UndetectedParasites, label='Undetected Parasites', marker='s')
+    plt.xlabel('Threshold Parameter Value (0-255)')
+    plt.ylabel('Error Value')
+    plt.title('Parasite Detection Error on Hard Sample Image Based on Pixel Intensity Threshold Parameter')
     plt.legend()
     plt.grid(True)
     plt.show() 
@@ -141,8 +141,8 @@ def optimalDisplay():
  
     
     
-#imagePacks = getTestImagePacks()
+imagePacks = getTestImagePacks()
 #print(type(imagePacks))
-#optimize(imagePacks[2])
+optimize(imagePacks[2])
 #getDataForOptimizeAll(imagePacks)
-optimalDisplay()
+#optimalDisplay()

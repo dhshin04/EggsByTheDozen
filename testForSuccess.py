@@ -22,6 +22,7 @@ names = ["Easy", "Medium", "Hard", "Very Hard", "Healthy Control"]
 
 expected_eggs= []
 observed_eggs = []
+PercentError = []
 
 for Image in Images:
     expSeen, expEggGram = getExpectedData(Image)
@@ -29,8 +30,12 @@ for Image in Images:
     obsSeen, obsEggGram = deriveData(observed)
     expected_eggs.append(expEggGram)
     observed_eggs.append(obsEggGram)   
-    print(error)
     
+    if expEggGram==0: PercentError.append(0)
+    else: PercentError.append(abs((obsEggGram - expEggGram)/expEggGram))
+    
+    print(error)
+  
     
 colors = ['orange' if x > 650 else 'lightcoral' if x > 350 else 'yellow' if x > 50 else 'green' for x in observed_eggs]
 expColors = ['orange' if x > 650 else 'lightcoral' if x > 350 else 'yellow' if x > 50 else 'green' for x in expected_eggs]
@@ -102,6 +107,7 @@ fig.tight_layout()
 
 #ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), shadow=True, ncol=2)
 
-    
+print(sum(PercentError)/len(PercentError))    
+
 plt.show()
     
